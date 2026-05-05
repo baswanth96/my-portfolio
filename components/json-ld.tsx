@@ -35,14 +35,10 @@ export function JsonLd() {
           },
         ],
         knowsAbout: [
-          "Web development",
-          "UI/UX",
-          "React",
-          "Flask",
-          "Node.js",
-          "MySQL",
-          "MongoDB",
-          "Firebase",
+          ...site.skills.languages,
+          ...site.skills.frameworksLibraries,
+          ...site.skills.databases,
+          ...site.skills.toolsPlatforms,
         ],
       },
       {

@@ -124,8 +124,15 @@ function ProjectCard({
         <p className="text-sm leading-relaxed text-muted-foreground">
           {project.description}
         </p>
+        {project.details?.length ? (
+          <ul className="mt-2 list-disc space-y-1 pl-4 text-xs leading-relaxed text-muted-foreground">
+            {project.details.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        ) : null}
         <ul className="mt-auto flex flex-wrap gap-2 pt-1">
-          {project.tags.slice(0, 4).map((tag) => (
+          {project.tags.map((tag) => (
             <li
               key={tag}
               className="rounded-full border border-border/70 bg-background/80 px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground"
