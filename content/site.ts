@@ -5,11 +5,14 @@ export type SocialLink = {
   href: string;
 };
 
+export type ProjectCategory = "experience" | "academic";
+
 export type Project = {
   title: string;
   description: string;
   href: string;
   tags: string[];
+  category: ProjectCategory;
 };
 
 /** Content sourced from Baswanth Kollu’s resume (PDF). */
@@ -28,6 +31,15 @@ export const site = {
   ] satisfies NavItem[],
   hero: {
     eyebrow: "Montclair State University · MS Information Technology",
+    marquee: [
+      "UI / UX",
+      "Full-stack",
+      "React",
+      "Python",
+      "Machine learning",
+      "Product",
+      "Accessibility",
+    ],
     headline:
       "Software engineer focused on scalable, user-centered web experiences.",
     subhead:
@@ -52,6 +64,11 @@ export const site = {
     title: "Experience & academic projects",
     intro:
       "Professional client work at TA Digital and representative academic projects from Montclair State University and Osmania University, as listed on my resume.",
+    filterLabels: {
+      all: "All projects",
+      experience: "Experience",
+      academic: "Academic",
+    },
     items: [
       {
         title: "TA Digital — UI/UX Developer",
@@ -64,6 +81,7 @@ export const site = {
           "UI/UX",
           "Responsive web",
         ],
+        category: "experience",
       },
       {
         title: "Depression detection using text classification",
@@ -78,6 +96,7 @@ export const site = {
           "Neural networks",
           "AdaBoost",
         ],
+        category: "academic",
       },
       {
         title: "AI financial application",
@@ -85,12 +104,14 @@ export const site = {
           "Built a web-based AI financial system for credit card fraud detection and budget forecasting with report downloads and admin management, using Flask, Python, SQLite, HTML, CSS, and Bootstrap. Applied Random Forest, Logistic Regression, and Facebook Prophet models.",
         href: "#contact",
         tags: ["Flask", "SQLite", "Bootstrap", "Random Forest", "Prophet"],
+        category: "academic",
       },
     ] satisfies Project[],
   },
   contact: {
     title: "Contact",
-    headline: "Let’s connect.",
+    flair: "Let’s go.",
+    headline: "Need a sharp web experience?",
     body: "Prefer email; phone is fine for a quick conversation.",
     email: "baswanth.kollu@gmail.com",
     phone: "551-226-1252",

@@ -8,23 +8,23 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="scroll-mt-24 border-b border-border/80 py-20 sm:py-24"
+      className="scroll-mt-24 border-b border-border/70 py-24 sm:py-32"
     >
-      <Container>
-        <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
+      <Container size="wide">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
           {about.title}
         </h2>
-        <div className="mt-6 grid gap-10 sm:grid-cols-[1fr_220px] sm:items-start">
-          <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
+        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_280px] lg:items-start lg:gap-16">
+          <div className="space-y-6 text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
             {about.paragraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
-          <ul className="flex flex-col gap-2 text-sm text-foreground">
+          <ul className="flex flex-col gap-3 text-sm font-semibold text-foreground">
             {about.highlights.map((item) => (
               <li
                 key={item}
-                className="rounded-xl border border-border bg-card px-4 py-3 font-medium"
+                className="rounded-2xl border border-border/80 bg-card px-5 py-4 shadow-sm"
               >
                 {item}
               </li>
