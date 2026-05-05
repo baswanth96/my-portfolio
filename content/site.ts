@@ -70,8 +70,6 @@ export const site = {
     ],
     headline:
       "Software engineer focused on scalable, user-centered web experiences.",
-    subhead:
-      "Information Technology graduate student at Montclair State University (GPA: 3.97/4.0) and Alpha Epsilon Lambda honor society member, with one year of professional experience as a UI/UX Developer at TA Digital. Proficient in web development (HTML, CSS, JavaScript, Python, PHP), with hands-on experience in frameworks (ReactJS, Flask, Node.js) and databases (MySQL, MongoDB, Firebase). Passionate about building scalable, user-centered software solutions.",
     primaryCta: { label: "Selected work", href: "#projects" },
     secondaryCta: { label: "Contact", href: "#contact" },
   },

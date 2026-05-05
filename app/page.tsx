@@ -2,7 +2,6 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { HeroSection } from "@/components/sections/HeroSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 
 export default function Home() {
@@ -15,7 +14,6 @@ export default function Home() {
         tabIndex={-1}
         aria-label="Portfolio content"
       >
-        <HeroSection />
         <AboutSection />
         <ProjectsSection />
         <ContactSection />

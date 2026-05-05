@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { Marquee } from "@/components/marquee";
 import { site } from "@/content/site";
 
 import { Container } from "@/components/layout/Container";
@@ -5,6 +8,7 @@ import { Container } from "@/components/layout/Container";
 export function AboutSection() {
   const {
     about,
+    hero,
     education,
     skills,
     researchPapers,
@@ -15,23 +19,51 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="scroll-mt-24 border-b border-border/70 py-24 sm:py-32"
+      className="relative scroll-mt-24 border-b border-border/70 pb-24 pt-16 sm:pb-32 sm:pt-20 md:pt-24"
     >
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_85%_55%_at_50%_-18%,color-mix(in_oklab,var(--brand)_18%,transparent),transparent)]"
+        aria-hidden
+      />
+
       <Container size="wide">
-        <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
-          {about.title}
-        </h2>
+        <header className="space-y-5">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
+            {hero.eyebrow}
+          </p>
+          <p className="text-sm font-medium text-foreground/80">{site.role}</p>
+          <h1 className="max-w-5xl text-balance text-4xl font-semibold tracking-tighter text-foreground sm:text-6xl sm:leading-[1.02] md:text-7xl">
+            {hero.headline}
+          </h1>
+          <p className="max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
+            {about.summary}
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link
+              href={hero.primaryCta.href}
+              className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-8 text-sm font-semibold text-brand-foreground shadow-sm transition-[transform,opacity] hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.99] motion-reduce:active:scale-100"
+            >
+              {hero.primaryCta.label}
+            </Link>
+            <Link
+              href={hero.secondaryCta.href}
+              className="inline-flex h-12 items-center justify-center rounded-full border border-border/90 bg-card px-8 text-sm font-semibold text-card-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              {hero.secondaryCta.label}
+            </Link>
+          </div>
+        </header>
+      </Container>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_280px] lg:items-start lg:gap-16">
+      <Marquee className="mt-12 sm:mt-16" items={hero.marquee} />
+
+      <Container size="wide" className="mt-12 sm:mt-16">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_280px] lg:items-start lg:gap-16">
           <div className="space-y-10">
-            <div className="space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg md:leading-relaxed">
-              <p>{about.summary}</p>
-            </div>
-
             <div id="education" className="scroll-mt-28 space-y-5">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
                 Education
-              </h3>
+              </h2>
               <ul className="space-y-8">
                 {education.map((entry) => (
                   <li key={entry.institution}>
@@ -64,9 +96,9 @@ export function AboutSection() {
             </div>
 
             <div id="skills" className="scroll-mt-28 space-y-5">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
                 Skills
-              </h3>
+              </h2>
               <div className="grid gap-8 sm:grid-cols-2">
                 <SkillBlock label="Languages" items={skills.languages} />
                 <SkillBlock
@@ -82,9 +114,9 @@ export function AboutSection() {
             </div>
 
             <div id="research" className="scroll-mt-28 space-y-5">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
                 Research papers
-              </h3>
+              </h2>
               <ul className="space-y-8">
                 {researchPapers.map((paper) => (
                   <li key={paper.title}>
@@ -102,9 +134,9 @@ export function AboutSection() {
             </div>
 
             <div className="space-y-5">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
                 Honors
-              </h3>
+              </h2>
               <ul className="list-disc space-y-1 pl-5 text-base text-foreground">
                 {honors.map((item) => (
                   <li key={item}>{item}</li>
@@ -113,9 +145,9 @@ export function AboutSection() {
             </div>
 
             <div className="space-y-5">
-              <h3 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
                 Volunteer & leadership
-              </h3>
+              </h2>
               <ul className="list-disc space-y-2 pl-5 text-base text-muted-foreground">
                 {volunteerAndLeadership.map((item) => (
                   <li key={item}>{item}</li>
