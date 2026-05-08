@@ -175,7 +175,7 @@ function ProjectCard({
           {project.tags.map((tag) => (
             <li
               key={tag}
-              className="rounded-full border border-border/70 bg-background/80 px-2.5 py-0.5 text-[11px] font-medium text-muted-foreground"
+              className="rounded-full border border-transparent bg-[rgba(26,26,26,0.05)] px-2.5 py-0.5 text-[11px] font-medium text-foreground/85 transition-[transform,background-color,border-color,color] duration-300 hover:-translate-y-0.5 hover:bg-[#1A1A1A] hover:text-[#F4F1EC]"
             >
               {tag}
             </li>
