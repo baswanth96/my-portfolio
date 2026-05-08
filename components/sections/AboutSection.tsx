@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
 
 import { Marquee } from "@/components/marquee";
 import { site } from "@/content/site";
@@ -60,10 +64,7 @@ export function AboutSection() {
       <Container size="wide" className="mt-12 sm:mt-16">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_280px] lg:items-start lg:gap-16">
           <div className="space-y-10">
-            <div id="education" className="scroll-mt-28 space-y-5">
-              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
-                Education
-              </h2>
+            <EditorialBlock id="education" title="Education">
               <ul className="space-y-8">
                 {education.map((entry) => (
                   <li key={entry.institution}>
@@ -93,12 +94,9 @@ export function AboutSection() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </EditorialBlock>
 
-            <div id="skills" className="scroll-mt-28 space-y-5">
-              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
-                Skills
-              </h2>
+            <EditorialBlock id="skills" title="Skills">
               <div className="grid gap-8 sm:grid-cols-2">
                 <SkillBlock label="Languages" items={skills.languages} />
                 <SkillBlock
@@ -111,15 +109,19 @@ export function AboutSection() {
                 />
                 <SkillBlock label="Databases" items={skills.databases} />
               </div>
-            </div>
+            </EditorialBlock>
 
-            <div id="research" className="scroll-mt-28 space-y-5">
-              <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
-                Research papers
-              </h2>
+            <EditorialBlock id="research" title="Research papers">
               <ul className="space-y-8">
-                {researchPapers.map((paper) => (
-                  <li key={paper.title}>
+                {researchPapers.map((paper, index) => (
+                  <motion.li
+                    key={paper.title}
+                    data-cursor="view"
+                    initial={{ y: 24, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.35 }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.1 }}
+                  >
                     <p className="font-semibold text-foreground">
                       {paper.title}
                     </p>
@@ -128,10 +130,10 @@ export function AboutSection() {
                         <li key={point}>{point}</li>
                       ))}
                     </ul>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-            </div>
+            </EditorialBlock>
 
             <div className="space-y-5">
               <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
@@ -174,6 +176,27 @@ export function AboutSection() {
         </div>
       </Container>
     </section>
+  );
+}
+
+function EditorialBlock({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div id={id} className="scroll-mt-28">
+      <div className="space-y-5 lg:grid lg:grid-cols-[minmax(140px,180px)_minmax(0,1fr)] lg:gap-10 lg:space-y-0">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground lg:sticky lg:top-24 lg:self-start">
+          {title}
+        </h2>
+        <div>{children}</div>
+      </div>
+    </div>
   );
 }
 

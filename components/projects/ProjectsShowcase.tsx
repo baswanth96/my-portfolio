@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import type { MouseEvent } from "react";
+import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
 
 import { Container } from "@/components/layout/Container";
 import type { ProjectCategory } from "@/content/site";
@@ -28,36 +30,37 @@ export function ProjectsShowcase() {
   return (
     <>
       <Container size="wide">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
+        <div className="grid gap-6 lg:grid-cols-[minmax(180px,220px)_minmax(0,1fr)] lg:gap-12">
+          <div className="lg:sticky lg:top-24 lg:self-start">
             <h2 className="text-[11px] font-semibold uppercase tracking-[0.38em] text-muted-foreground">
               {projects.title}
             </h2>
+          </div>
+          <div className="max-w-2xl">
             <p className="mt-4 text-pretty text-lg font-semibold tracking-tight text-foreground md:text-xl md:leading-snug">
               {projects.intro}
             </p>
+            <div className="scrollbar-none mt-10 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-x-visible">
+              {filters.map((f) => {
+                const isActive = filter === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setFilter(f.id)}
+                    className={cn(
+                      "shrink-0 rounded-full border px-4 py-2 text-xs font-semibold tracking-tight transition-colors",
+                      isActive
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border/80 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                    )}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-
-        <div className="scrollbar-none mt-10 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-x-visible">
-          {filters.map((f) => {
-            const isActive = filter === f.id;
-            return (
-              <button
-                key={f.id}
-                type="button"
-                onClick={() => setFilter(f.id)}
-                className={cn(
-                  "shrink-0 rounded-full border px-4 py-2 text-xs font-semibold tracking-tight transition-colors",
-                  isActive
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border/80 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-                )}
-              >
-                {f.label}
-              </button>
-            );
-          })}
         </div>
       </Container>
 
@@ -79,23 +82,60 @@ function ProjectCard({
 }: {
   project: (typeof site.projects.items)[number];
 }) {
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springRotateX = useSpring(rotateX, { stiffness: 180, damping: 18, mass: 0.5 });
+  const springRotateY = useSpring(rotateY, { stiffness: 180, damping: 18, mass: 0.5 });
+  const glareX = useMotionValue(50);
+  const glareY = useMotionValue(50);
+  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.35), rgba(255,255,255,0) 52%)`;
   const isExternalHttp = /^https?:\/\//.test(project.href);
   const initial = project.title.replace(/[^A-Za-z0-9]/g, "").charAt(0) || "·";
 
+  const handleMove = (event: MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    rotateY.set((x - 0.5) * 10);
+    rotateX.set((0.5 - y) * 10);
+    glareX.set(x * 100);
+    glareY.set(y * 100);
+  };
+
+  const reset = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+    glareX.set(50);
+    glareY.set(50);
+  };
+
   return (
-    <Link
-      href={project.href}
-      {...(isExternalHttp
-        ? { target: "_blank" as const, rel: "noopener noreferrer" }
-        : {})}
-      className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-card text-left shadow-sm",
-        "transition-[transform,box-shadow] duration-300",
-        "hover:-translate-y-1 hover:shadow-lg",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        "motion-reduce:transform-none motion-reduce:transition-none",
-      )}
+    <motion.div
+      className="h-full [perspective:1200px]"
+      onMouseMove={handleMove}
+      onMouseLeave={reset}
+      style={{ rotateX: springRotateX, rotateY: springRotateY }}
     >
+      <Link
+        href={project.href}
+        {...(isExternalHttp
+          ? { target: "_blank" as const, rel: "noopener noreferrer" }
+          : {})}
+        data-cursor="view"
+        className={cn(
+          "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border/80 bg-card text-left shadow-sm",
+          "transition-[transform,box-shadow] duration-300",
+          "hover:-translate-y-1 hover:shadow-lg",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          "motion-reduce:transform-none motion-reduce:transition-none",
+        )}
+      >
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 mix-blend-screen"
+          style={{ backgroundImage: glare }}
+        />
       <div className="relative aspect-[5/3] overflow-hidden bg-gradient-to-br from-muted/90 via-card to-brand/20">
         <div
           className="absolute inset-0 opacity-[0.07]"
@@ -142,6 +182,7 @@ function ProjectCard({
           ))}
         </ul>
       </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
 }

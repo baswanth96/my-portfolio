@@ -1,3 +1,4 @@
+import { InteractionEffects } from "@/components/interaction/InteractionEffects";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { AboutSection } from "@/components/sections/AboutSection";
@@ -7,6 +8,7 @@ import { ProjectsSection } from "@/components/sections/ProjectsSection";
 export default function Home() {
   return (
     <div className="flex min-h-full flex-1 flex-col">
+      <InteractionEffects />
       <SiteHeader />
       <main
         id="main-content"
