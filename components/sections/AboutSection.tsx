@@ -214,7 +214,7 @@ function SkillBlock({
         {items.map((item) => (
           <li
             key={item}
-            className="rounded-full border border-border/80 bg-card px-3 py-1 text-xs font-medium text-muted-foreground"
+            className="rounded-full border border-border/90 bg-card px-3 py-1 text-xs font-medium text-card-foreground/85 transition-[transform,background-color,border-color,color] duration-300 hover:-translate-y-0.5 hover:border-card hover:bg-transparent hover:text-foreground"
           >
             {item}
           </li>
